@@ -1,0 +1,145 @@
+MySQL数据库的使用有一下步骤：
+
+一、创建数据库（在与数据进行任何其他操作之前，需要创建一个数据库）
+使用CREATE DATABASE语句创建，如下：
+CREATE DATABASE [IF NOT EXISTS] database_name;
+
+二、显示数据库
+执行语句SHOW DATABASES
+
+三、选择要使用的数据库
+USE database_name;
+
+四、删除数据库（删除数据库意味着数据库中的所有数据和关联对象将被永久删除，并且无法撤消）
+DROP DATABASE [IF EXISTS] database_name;
+
+五、MySQL 创建表
+CREATE TABLE [IF NOT EXISTS] table_name(
+        column_list
+) engine=table_type;
+例：
+CREATE TABLE IF NOT EXISTS `studentrecord`(
+   record_id INT UNSIGNED AUTO_INCREMENT,
+   stu_num VARCHAR(100)NOT NULL,
+   match_record INT NOT NULL,
+   datasec_record INT NOT NULL,
+   PRIMARY KEY ( record_id )
+  )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+六、修改表结构
+1.使用ALTER TABLE语句来更改现有表的结构
+ALTER TABLE table_name action1[,action2,…]
+
+2.使用 ALTER语句来设置列的自动递增属性
+ALTER TABLE tasks
+CHANGE COLUMN task_id task_id INT(11) NOT NULL AUTO_INCREMENT;
+
+3.使用 ALTER从表中删除列
+ALTER TABLE tasks
+DROP COLUMN description;
+
+4.使用ALTER 语句重命名表
+ALTER TABLE tasks
+RENAME TO work_items;
+
+七、MySQL 查询
+
+SELECT 
+    column_1, column_2, ...
+FROM
+    table_1
+[INNER | LEFT |RIGHT] JOIN table_2 ON conditions
+WHERE
+    conditions
+GROUP BY column_1
+HAVING group_conditions
+ORDER BY column_1
+LIMIT offset, length;
+
+1.基本查询
+例1：
+SELECT 
+    lastname, firstname, jobtitle
+FROM
+    employees;
+例2：
+SELECT lastname, firstname, jobtitle FROM employees;
+例3：
+SELECT * FROM employees;
+
+2.联合查询 UNION
+例1：
+SELECT stu_id,stu_name,stu_sex,stu_num,stu_code 
+  FROM studentinfo
+  UNION
+  SELECT ALL FROM studentrecord;
+例2：
+  Example01
+  SELECT stu_name,stu_num
+  FROM studentinfo
+  UNION
+  SELECT match_record,datasec_record
+  FROM studentrecord;
+
+3.带条件查询（WHERE）：
+例1：
+  SELECT * FROM studentinfo LIMIT 0,100;
+  SELECT * 
+  FROM studentinfo 
+  WHERE stu_name = "黄三";
+
+4.模糊查询 LIKE
+例1：
+SELECT * FROM studentinfo LIMIT 0,100;
+  SELECT * 
+  FROM studentinfo 
+  WHERE stu_name LIKE "黄%";
+例2： 
+  SELECT * FROM studentinfo LIMIT 0,100;
+  SELECT * 
+  FROM studentinfo 
+  WHERE stu_name LIKE "%黄%";
+
+八、MySQL插入语句
+INSERT INTO table(column1,column2...)
+VALUES (value1,value2,...);
+
+例1：
+如果要将任务插入到tasts表中，则使用INSERT语句如下：
+INSERT INTO tasks(subject,start_date,end_date,description)
+VALUES('Learn MySQL INSERT','2017-07-21','2017-07-22','Start learning..');
+
+九、排序 ORDER BY
+  SELECT field1, field2,...fieldN table_name1, table_name2...
+  ORDER BY field1 [ASC [DESC][默认 ASC]], [field2...] [ASC [DESC][默认 ASC]]
+ 例：
+  SELECT stu_num,match_record,datasec_record
+  FROM studentrecord
+  WHERE match_record >= 90
+  ORDER BY match_record;
+
+十、分组 GROUP BY
+例：
+  SELECT match_record,COUNT(*) datasec_record
+  FROM studentrecord
+  GROUP BY match_record;
+
+十一、删除数据
+例：
+  DELETE FROM studentinfo WHERE stu_name = "黄三";
+  
+十二、更新数据
+例：
+  UPDATE table_name SET field1=new-value1, field2=new-value2 [WHERE Clause]
+  UPDATE studentinfo 
+  SET stu_name="黄四" 
+  WHERE stu_name = "黄三";
+
+
+
+
+
+
+
+
+
